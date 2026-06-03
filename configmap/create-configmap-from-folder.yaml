@@ -1,0 +1,10 @@
+# Create two files in a new folder. Name one of them fileone.txt, with its
+contents as file one, and name the other filetwo.txt, with its contents as
+file two. The folder name can be anything for this exercise. You can confirm
+that the files have been created using the ls command:
+
+# kubectl create configmap map-from-folder --from-file=./ -n configmap-
+test
+
+# kubectl describe configmap map-from-folder -n configmap-test
+
