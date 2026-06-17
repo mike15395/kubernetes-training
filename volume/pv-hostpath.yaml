@@ -1,0 +1,14 @@
+# ~/pv-hostpath.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv0003
+spec:
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce # read write single node
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: /data/pv0003
+  

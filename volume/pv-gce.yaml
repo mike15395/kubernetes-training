@@ -1,0 +1,13 @@
+# ~/persistent-volume-pd.yaml
+apiVersion: v1
+kind: PersistentVolume
+metdata:
+  name: persistent-volume-pd
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+  - ReadWriteOnce
+  gcePersistentDisk:
+    pdName: xxxx
+    fsType: ext4

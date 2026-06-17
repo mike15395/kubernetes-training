@@ -10,8 +10,8 @@ spec:
     args: ["-c", "echo started...; while true ; do sleep 1 ; done"]
     volumeMounts:
     - mountPath: "/mnt/data"
-      name: persistent-volume
+      name: pvc-1e86aaa6-671b-4aae-9dd1-94d9a72cec37
   volumes:
-  - name: persistent-volume
+  - name: pvc-1e86aaa6-671b-4aae-9dd1-94d9a72cec37
     persistentVolumeClaim:
-      claimName: local-storage-claim
+      claimName: some-pvc
