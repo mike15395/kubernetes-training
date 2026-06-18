@@ -2,5 +2,8 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: local-storage
+  lables:
+    app: frontend
+    env: Prod
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer

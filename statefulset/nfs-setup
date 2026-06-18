@@ -1,0 +1,47 @@
+sudo apt update
+sudo apt install -y nfs-kernel-server
+
+sudo mkdir -p /srv/nfs/mysql
+sudo chown -R nobody:nogroup /srv/nfs/mysql
+sudo chmod -R 777 /srv/nfs/mysql
+
+#
+/srv/nfs/mysql  192.168.1.20(rw,sync,no_subtree_check,no_root_squash)
+
+sudo exportfs -ra
+sudo systemctl enable --now nfs-kernel-server
+sudo exportfs -v          # confirm the export is active
+
+
+sudo ufw allow from 192.168.1.20 to any port nfs
+sudo ufw allow 2049/tcp
+sudo ufw allow 111/tcp
+sudo ufw allow 111/udp
+
+
+
+sudo apt update
+sudo apt install -y nfs-common
+showmount -e 192.168.1.10
+
+sudo mkdir -p /mnt/test-nfs
+sudo mount -t nfs 192.168.1.10:/srv/nfs/mysql /mnt/test-nfs
+df -h | grep nfs
+sudo umount /mnt/test-nfs
+
+
+minikube ssh -- showmount -e 192.168.1.10
+
+
+kubectl apply -f nfs-provisioner-rbac.yaml
+kubectl apply -f nfs-provisioner-deployment.yaml
+kubectl apply -f nfs-storageclass.yaml
+
+
+ls /srv/nfs/mysql
+# something like: default-mysql-data-mysql-0-pvc-<uuid>
+
+kubectl exec -it mysql-0 -- mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "SHOW DATABASES;"
+
+kubectl delete pod mysql-0
+kubectl exec -it mysql-0 -- mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "SHOW DATABASES;"
